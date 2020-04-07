@@ -6,7 +6,7 @@
   &__content {
     display: flex;
     max-width: 440px;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
     position: relative;
   }
 
@@ -18,7 +18,7 @@
       width: 33px;
       height: 33px;
       margin-right: 13px;
-      margin-bottom: 23px;
+      margin-bottom: 5px;
     }
   }
 
@@ -93,5 +93,66 @@
         color: $black;
       }
     }
+  }
+  &--is-typing {
+    #{$self}__bubble {
+      background: $message-typing-blue;
+      box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.0220444);
+    }
+  }
+
+  &--image {
+    #{$self}__attachments {
+      &-item {
+        img {
+          width: 150px;
+          height: 150px;
+        }
+      }
+    }
+  }
+  &__typing {
+    padding: 5px;
+    span {
+      height: 8px;
+      width: 8px;
+      border-radius: 50%;
+      background: $message-typing-circle;
+      display: inline-block;
+      margin-right: 8px;
+
+      animation-name: typingAnimation;
+      animation-timing-function: ease-in-out;
+      animation-iteration-count: infinite;
+      animation-duration: 1s;
+
+      &:nth-of-type(1) {
+        animation-delay: 0ms;
+      }
+      &:nth-of-type(2) {
+        animation-delay: 333ms;
+      }
+      &:nth-of-type(3) {
+        animation-delay: 666ms;
+      }
+    }
+  }
+}
+@keyframes typingAnimation {
+  0% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  33% {
+    transform: scale(1);
+    opacity: 0.4;
+  }
+  50% {
+    transform: scale(1.4);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.4;
   }
 }
