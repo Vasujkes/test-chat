@@ -1,21 +1,20 @@
-import React, { Fragment } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 
-import formatDistanceToNow from "date-fns/formatDistanceToNow";
+import { isToday } from 'date-fns'
 import format from "date-fns/format";
-import ruLocale from "date-fns/locale/ru";
 
 const Time = ({ date }) => {
-  return (
-    <Fragment>
-      {/*  {formatDistanceToNow(new Date(date),"h 'o''clock'", { addSuffix: true, locale: ruLocale })} */}
-      {format(new Date(date), "HH:mm", { addSuffix: true, locale: ruLocale })}
-    </Fragment>
+
+  return isToday(new Date(date)) ? (
+    <span className="date-format">{format(new Date(date), "HH:mm")}</span>
+  ) : (
+    <span className="date-format">{format(new Date(date), "dd.MM.yy")}</span>
   );
 };
 
 Time.propTypes = {
-  date: PropTypes.string
+  date: PropTypes.string,
 };
 
 export default Time;

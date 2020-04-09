@@ -63,6 +63,55 @@
       left: -20px;
     }
   }
+  &--is-audio {
+    audio {
+      display: none;
+    }
+    #{$self}__bubble {
+      width: 250px;
+      position: relative;
+      overflow: hidden;
+    }
+    #{$self}__audio {
+      &-progress {
+        height: 100%;
+        left: 0;
+        bottom: 0;
+        position: absolute;
+        background-color: #418fff;
+        transition: width 0.5s ease;
+      }
+
+      &-info {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      &-btn {
+        button {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          cursor: pointer;
+          background: #0f3997;
+          width: 28px;
+          height: 28px;
+          border-radius: 30px;
+          border: none;
+          img {
+            height: 13px;
+          }
+        }
+      }
+      &-duration {
+        color: #fff;
+        font-weight: 500;
+        font-size: 12px;
+        opacity: 0.5;
+      }
+    }
+  }
 
   &--isme {
     display: flex;

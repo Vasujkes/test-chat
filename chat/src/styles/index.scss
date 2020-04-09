@@ -13,11 +13,15 @@ h1,h2,h3,p {
   padding: 0;
   margin: 0;
 }
+*{
+  outline: none;
+}
 
 .wrapper {
   height: 100%;
 }
 
-/* .ant-form {
-  width: 100%;
-} */
+.date-format {
+  font-size: 12px;
+  opacity: 0.5;
+}
