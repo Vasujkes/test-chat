@@ -11,7 +11,7 @@ import pauseSvg from "assets/img/pause.svg";
 
 import "./Message.scss";
 
-const MessageAudio = ({audioSrc}) => {
+const MessageAudio = ({ audioSrc }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgeress] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -91,7 +91,7 @@ const Message = ({ avatar, audio, user, text, date, isMe, isReaded, attachments,
       })}
     >
       <div className="message__content">
-        <ReadedIcon isMe={isMe} isReaded={isReaded} />
+        {isMe && <ReadedIcon isMe={isMe} isReaded={isReaded} />}
 
         <div className="message__avatar">
           <img src={avatar} alt={`avatart ${user.fullname}`} />
@@ -107,7 +107,7 @@ const Message = ({ avatar, audio, user, text, date, isMe, isReaded, attachments,
                   <span />
                 </div>
               )}
-              {audio && <MessageAudio audioSrc={audio}/>}
+              {audio && <MessageAudio audioSrc={audio} />}
             </div>
           )}
 

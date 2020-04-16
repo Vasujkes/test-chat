@@ -1,0 +1,22 @@
+.status {
+  display: flex;
+  align-items: center;
+  color: #bfbfbf;
+  font-size: 14px;
+  line-height: 16px;
+  &::before {
+    display: block;
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 30px;
+    background-color: #d3d3d3;
+    margin-right: 5px;
+    margin-top: 2px;
+  }
+  &--online {
+    &::before {
+      background-color: #00c980;
+    }
+  }
+}

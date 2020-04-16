@@ -17,7 +17,7 @@ export default (hash) => {
     .map((char) => getCorrectIndex(char.charCodeAt(0)));
 
   return {
-    color: tinycolor({ r, g, b }).toHexString(),
-    colorLighten: tinycolor({ r, g, b }).lighten(40).toHexString(),
+    color: tinycolor({ r, g, b }).lighten(10).saturate(10).toHexString(),
+    colorLighten: tinycolor({ r, g, b }).lighten(40).saturate(20).toHexString(),
   };
 };

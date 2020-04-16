@@ -1,33 +1,30 @@
-import React from "react";
+import React, { Fragment } from "react";
 import orderBy from "lodash/orderBy";
-import { isToday } from "date-fns";
+import { Input, Empty } from "antd";
 
 import { DialogItem } from "../";
 
 import "./Dialogs.scss";
 
-const Dialogs = ({ items, userId }) => (
-  <div className="dialogs">
-    {orderBy(items, ["created_at"], ["desc"]).map((item) => (
-      <DialogItem
-        key={item._id}
-        unread={3}
-        isMe={item.user._id === userId}
-        {...item}
+const Dialogs = ({ items, userId, onSearch, inputValue }) => (
+  <Fragment>
+    <div className="dialogs__search">
+      <Input.Search
+        placeholder="Поиск среди контактам"
+        onChange={(e) => onSearch(e.target.value)}
+        value={inputValue}
       />
-    ))}
-    {/*  {sortBy(items, (dialog) =>
-      dialog.created_at.map((item) => (
-        <DialogItem
-          key={item._id}
-          user={item.user}
-          message={item}
-          unreaded={3}
-          isMe={item.user._id === userId}
-        />
-      ))
-    )} */}
-  </div>
+    </div>
+    <div className="dialogs__list">
+      {items.length ? (
+        orderBy(items, ["created_at"], ["desc"]).map((item) => (
+          <DialogItem key={item._id} unread={3} isMe={item.user._id === userId} {...item} />
+        ))
+      ) : (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="ничего не найдено" />
+      )}
+    </div>
+  </Fragment>
 );
 
 export default Dialogs;
