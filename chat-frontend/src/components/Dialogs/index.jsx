@@ -6,7 +6,7 @@ import { DialogItem } from "../";
 
 import "./Dialogs.scss";
 
-const Dialogs = ({ items, userId, onSearch, inputValue }) => (
+const Dialogs = ({ items, userId, onSearch, inputValue, onSelectDialog }) => (
   <Fragment>
     <div className="dialogs__search">
       <Input.Search
@@ -18,7 +18,13 @@ const Dialogs = ({ items, userId, onSearch, inputValue }) => (
     <div className="dialogs__list">
       {items.length ? (
         orderBy(items, ["created_at"], ["desc"]).map((item) => (
-          <DialogItem key={item._id} unread={3} isMe={item.user._id === userId} {...item} />
+          <DialogItem
+            onSelect={onSelectDialog}
+            key={item._id}
+            unread={3}
+            isMe={item.user._id === userId}
+            {...item}
+          />
         ))
       ) : (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description="ничего не найдено" />
