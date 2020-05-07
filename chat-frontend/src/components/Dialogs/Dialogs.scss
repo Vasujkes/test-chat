@@ -2,17 +2,12 @@
   &__item {
     padding: 10px 20px;
     cursor: pointer;
-
-    &.active,
-    &:hover {
-      background-color: #f3f7ff;
-    }
   }
   &__search {
     padding: 0 20px 20px 20px;
 
     .ant-input {
-      background-color: #f7f8f9;
+      background-color: #f3f7ff;
       border: 0;
       height: 38px;
       padding: 4px 11px 6px;

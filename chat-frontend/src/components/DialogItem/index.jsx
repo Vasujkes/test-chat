@@ -5,9 +5,22 @@ import { Time, ReadedIcon, Avatar } from "../";
 
 import "./DialogItem.scss";
 
-const DialogItem = ({ _id, user, created_at, text, isReaded, unread, isMe, onSelect }) => (
+const DialogItem = ({
+  _id,
+  user,
+  created_at,
+  text,
+  isReaded,
+  unread,
+  isMe,
+  onSelect,
+  currentDialogId,
+}) => (
   <div
-    className={classNames("dialogs__item", { "dialogs__item-online": user.isOnline })}
+    className={classNames("dialogs__item", {
+      "dialogs__item--online": user.isOnline,
+      "dialogs__item--selected": currentDialogId === _id,
+    })}
     onClick={onSelect.bind(this, _id)}
   >
     <div className="dialogs__item-avatar ">

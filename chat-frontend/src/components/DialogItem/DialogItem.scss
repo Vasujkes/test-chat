@@ -1,6 +1,5 @@
 @import "~styles/variables";
 .dialogs {
-  
   &__item {
     display: flex;
     align-items: center;
@@ -20,8 +19,15 @@
         border-radius: 50%;
       }
     }
- 
-    &-online {
+
+    &.active,
+    &:hover {
+      background-color: #004bf126;
+    }
+    &--selected {
+      background-color: #004bf126;
+    }
+    &--online {
       #{$item}-avatar {
         &::before {
           display: block;
@@ -37,9 +43,9 @@
           border: 3px solid #fff;
         }
       }
-    } 
+    }
 
-     &-info {
+    &-info {
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -85,6 +91,6 @@
           border-radius: 30px;
         }
       }
-    } 
+    }
   }
 }
