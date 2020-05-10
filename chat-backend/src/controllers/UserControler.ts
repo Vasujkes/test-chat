@@ -1,5 +1,18 @@
 import express from "express";
-import { UserModel } from "../schemas";
+import { validationResult } from "express-validator";
+import bcrypt from "bcrypt";
+
+import { UserModel } from "../models";
+import { IUser } from "../models/User";
+import { createJWToken } from "../utils";
+
+declare global {
+  namespace Express {
+    interface Request {
+      user?: IUser;
+    }
+  }
+}
 
 class UserController {
   show(req: express.Request, res: express.Response) {
@@ -14,8 +27,46 @@ class UserController {
     });
   }
 
-  getMe() {
-    // TODO: сделать вощвращение инфы о себе
+  getMe(req: express.Request, res: express.Response) {
+    const id: string = req.user?._id;
+    UserModel.findById(id, (err, user) => {
+      if (err) {
+        return res.status(404).json({
+          message: "User not found",
+        });
+      }
+      res.json(user);
+    });
+  }
+
+  login(req: express.Request, res: express.Response) {
+    const postData = {
+      email: req.body.email,
+      password: req.body.password,
+    };
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
+    UserModel.findOne({ email: postData.email })
+      .exec()
+      .then((user: any) => {
+        if (bcrypt.compareSync(postData.password, user.password)) {
+          const token = createJWToken(user);
+          res.json({
+            status: "success",
+            token,
+          });
+        } else {
+          res.json({
+            status: "error",
+            message: "Incorected password or email",
+          });
+        }
+      });
   }
 
   create(req: express.Request, res: express.Response) {
