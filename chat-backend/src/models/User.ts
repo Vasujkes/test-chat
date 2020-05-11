@@ -5,7 +5,7 @@ import { generatePasswordHash } from "../utils";
 export interface IUser extends Document {
   email?: string;
   fullname?: string;
-  password?: string;
+  password: string;
   confirmed?: boolean;
   avatar?: string;
   confirmed_hash?: string;
@@ -35,7 +35,7 @@ const UserSchema = new Schema(
   }
 );
 
-UserSchema.pre("save", function (next) {
+UserSchema.pre<IUser>("save", function (next) {
   const user: IUser = this;
 
   if (!user.isModified("password")) return next();

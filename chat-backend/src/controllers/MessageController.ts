@@ -1,10 +1,10 @@
 import express from "express";
+import mongoose from "mongoose";
 import { MessageModel } from "../models";
 
 class MessageController {
   index(req: express.Request, res: express.Response) {
     const dialogId: any = req.query.dialog;
-    console.log(dialogId);
     MessageModel.find({ dialog: dialogId })
       .populate(["dialog"])
       .exec(function (err, messages) {
@@ -30,7 +30,7 @@ class MessageController {
 
     message
       .save()
-      .then((obj: any) => {
+      .then((obj) => {
         res.json(obj);
       })
       .catch((reason) => {

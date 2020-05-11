@@ -1,19 +1,20 @@
 import express from "express";
 import { DialogModel, MessageModel } from "../models";
 import { IUser } from "../models/User";
+import { IDialog } from "../models/Dialog";
 
-declare global {
-  namespace Express {
-    interface Request {
-      user?: IUser;
-    }
-  }
-}
+// declare global {
+//   namespace Express {
+//     interface Request {
+//       user?: IUser;
+//     }
+//   }
+// }
 
 class DialogController {
   index(req: express.Request, res: express.Response) {
     const authorId = req.user?._id;
- 
+
     DialogModel.find({
       author: authorId /* $or: [{ author: authorId }, { partner: authorId }] */,
     })
@@ -37,7 +38,7 @@ class DialogController {
 
     dialog
       .save()
-      .then((dialogObj: any) => {
+      .then((dialogObj: IDialog) => {
         const message = new MessageModel({
           text: req.body.text,
           user: req.body.author,
