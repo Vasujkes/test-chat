@@ -4,8 +4,17 @@ import { Link } from "react-router-dom";
 import { Button, Block } from "components";
 import { validateField } from "utils/helpers";
 
-const LoginForm = props => {
-  const { values, touched, errors, handleChange, handleBlur, handleSubmit } = props;
+const LoginForm = (props) => {
+  const {
+    values,
+    touched,
+    errors,
+    handleChange,
+    handleBlur,
+    handleSubmit,
+    isValid,
+    isSubmitting,
+  } = props;
   return (
     <div>
       <div className="auth__top">
@@ -16,30 +25,30 @@ const LoginForm = props => {
       <Block>
         <Form onSubmit={handleSubmit} className="login-form">
           <Form.Item
-            hasFeedback
             validateStatus={validateField("email", touched, errors)}
             help={!touched.email ? "" : errors.email}
+            hasFeedback
           >
             <Input
               id="email"
               prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />}
               size="large"
-              placeholder="E-mail"
+              placeholder="E-Mail"
               value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
             />
           </Form.Item>
           <Form.Item
-            hasFeedback
-            validateStatus={validateField('password', touched, errors)}
+            validateStatus={validateField("password", touched, errors)}
             help={!touched.password ? "" : errors.password}
+            hasFeedback
           >
             <Input
               id="password"
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
-              type="password"
               size="large"
+              type="password"
               placeholder="Пароль"
               value={values.password}
               onChange={handleChange}
@@ -47,17 +56,12 @@ const LoginForm = props => {
             />
           </Form.Item>
           <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button button"
-              size="large"
-              onClick={handleSubmit}
-            >
-              Войти в Аккаунт
+            {isSubmitting && !isValid && <span>Ошибка!</span>}
+            <Button disabled={isSubmitting} onClick={handleSubmit} type="primary" size="large">
+              Войти в аккаунт
             </Button>
           </Form.Item>
-          <Link className="auth__register-link" to="/register">
+          <Link className="auth__register-link" to="/signup">
             Зарегистрироваться
           </Link>
         </Form>

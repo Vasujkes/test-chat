@@ -1,6 +1,7 @@
 import express from "express";
 import { validationResult } from "express-validator";
 import bcrypt from "bcrypt";
+import socket from "socket.io";
 
 import { UserModel } from "../models";
 import { IUser } from "../models/User";
@@ -15,7 +16,11 @@ declare global {
 }
 
 class UserController {
-  show(req: express.Request, res: express.Response) {
+  io: socket.Server;
+  constructor(io: socket.Server) {
+    this.io = io;
+  }
+  show = (req: express.Request, res: express.Response) => {
     const id: string = req.params.id;
     UserModel.findById(id, (err, user) => {
       if (err) {
@@ -25,29 +30,50 @@ class UserController {
       }
       res.json(user);
     });
-  }
+  };
 
-  getMe(req: express.Request, res: express.Response) {
+  getMe = (req: express.Request, res: express.Response) => {
     const id: string = req.user?._id;
     UserModel.findById(id, (err, user) => {
-      if (err) {
+      if (err || !user) {
         return res.status(404).json({
           message: "User not found",
         });
       }
       res.json(user);
     });
-  }
+  };
 
-  login(req: express.Request, res: express.Response) {
+  verify = (req: express.Request, res: express.Response) => {
+    const hash: any = req.query.hash;
+
+    if (!hash) {
+      return res.status(422).json({ errors: "Invalid hash" });
+    }
+
+    UserModel.findOne({ confirmed_hash: hash }, (err, user) => {
+      if (err || !user) {
+        return res.status(404).json({
+          message: "Hash not found",
+        });
+      }
+      res.json({
+        status: "success",
+        message: "Акаунт успешно подтвержден!",
+      });
+    });
+  };
+
+  login = (req: express.Request, res: express.Response) => {
     const postData = {
       email: req.body.email,
       password: req.body.password,
     };
+
     const errors = validationResult(req);
-    /*  if (!errors.isEmpty()) {
+    if (!errors.isEmpty()) {
       return res.status(422).json({ errors: errors.array() });
-    } */
+    }
 
     UserModel.findOne({ email: postData.email }, (err, user: IUser) => {
       if (err || !user) {
@@ -68,26 +94,36 @@ class UserController {
         });
       }
     });
-  }
+  };
 
-  create(req: express.Request, res: express.Response) {
+  create = (req: express.Request, res: express.Response) => {
     const postData = {
       email: req.body.email,
       fullname: req.body.fullname,
       password: req.body.password,
     };
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() });
+    }
+
     const user = new UserModel(postData);
+
     user
       .save()
       .then((obj: IUser) => {
         res.json(obj);
       })
       .catch((reason) => {
-        res.json(reason);
+        res.status(500).json({
+          status: "error",
+          message: reason,
+        });
       });
-  }
+  };
 
-  delete(req: express.Request, res: express.Response) {
+  delete = (req: express.Request, res: express.Response) => {
     const id: string = req.params.id;
     UserModel.findOneAndRemove({ _id: id })
       .then((user) => {
@@ -106,6 +142,6 @@ class UserController {
           message: `User not found`,
         });
       });
-  }
+  };
 }
 export default UserController;

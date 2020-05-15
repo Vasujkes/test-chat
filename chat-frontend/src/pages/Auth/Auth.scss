@@ -46,6 +46,11 @@
   }
   .block {
     width: 430px;
+    form {
+      .ant-input {
+        padding-left: 49px;
+      }
+    }
   }
   .button {
     text-transform: uppercase;

@@ -10,8 +10,7 @@
     <script>
       var socket = io("http://localhost:3000");
       window.socket = socket;
-
-      let room = "5eb6db3a95dee1020cc6933d";
+      let room = "5eb91f27282aff18b8cc9cb2";
       console.log("dialog: ", room);
       socket.on("connect", function () {
         // Connected, let's sign-up for to receive messages for this room

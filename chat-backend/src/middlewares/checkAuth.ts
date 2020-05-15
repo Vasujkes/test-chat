@@ -2,7 +2,11 @@ import express from "express";
 import { verifyJWTToken } from "../utils";
 
 export default (req: any, res: express.Response, next: any) => {
-  if (req.path === "/user/login" || req.path === "/user/registration") {
+  if (
+    req.path === "/user/signin" ||
+    req.path === "/user/signup" ||
+    req.path === "/user/verify"
+  ) {
     return next();
   }
   const token = req.headers.token;
@@ -12,7 +16,6 @@ export default (req: any, res: express.Response, next: any) => {
       next();
     })
     .catch((err) => {
-      console.log(err);
       res.status(403).json({ message: "Invalid auth token provided." });
     });
 };

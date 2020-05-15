@@ -1,18 +1,15 @@
 import express from "express";
 import { DialogModel, MessageModel } from "../models";
-import { IUser } from "../models/User";
 import { IDialog } from "../models/Dialog";
-
-// declare global {
-//   namespace Express {
-//     interface Request {
-//       user?: IUser;
-//     }
-//   }
-// }
+import socket from "socket.io";
 
 class DialogController {
-  index(req: express.Request, res: express.Response) {
+  io: socket.Server;
+  constructor(io: socket.Server) {
+    this.io = io;
+  }
+
+  index = (req: express.Request, res: express.Response) => {
     const authorId = req.user?._id;
 
     DialogModel.find({
@@ -27,9 +24,9 @@ class DialogController {
         }
         return res.json(dialogs);
       });
-  }
+  };
 
-  create(req: express.Request, res: express.Response) {
+  create = (req: express.Request, res: express.Response) => {
     const postData = {
       author: req.body.author,
       partner: req.body.partner,
@@ -57,9 +54,9 @@ class DialogController {
       .catch((reason) => {
         res.json(reason);
       });
-  }
+  };
 
-  delete(req: express.Request, res: express.Response) {
+  delete = (req: express.Request, res: express.Response) => {
     const id: string = req.params.id;
     DialogModel.findOneAndRemove({ _id: id })
       .then((dialog) => {
@@ -78,6 +75,6 @@ class DialogController {
           message: `User not found`,
         });
       });
-  }
+  };
 }
 export default DialogController;

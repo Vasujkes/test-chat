@@ -1,9 +1,11 @@
 export default (key, touched, errors) => {
-  if (touched.email && errors.email) {
-    return "error";
-  } else if (!touched.email) {
-    return "";
+  if (touched[key]) {
+    if (errors[key]) {
+      return "error";
+    } else {
+      return "success";
+    }
   } else {
-    return "success";
+    return "";
   }
 };
