@@ -1,14 +1,12 @@
 import React from "react";
-import { Form, Icon, Input } from "antd";
+import { Form, Icon } from "antd";
 
 import { Link } from "react-router-dom";
 import { Button, Block, FormField } from "components";
 
-import { validateField } from "utils/helpers";
-
 const success = false;
 const RegisterForm = (props) => {
-  const { values, touched, errors, handleChange, handleBlur, handleSubmit,isSubmitting } = props;
+  const { values, touched, errors, handleChange, handleBlur, handleSubmit, isSubmitting } = props;
   return (
     <div>
       <div className="auth__top">

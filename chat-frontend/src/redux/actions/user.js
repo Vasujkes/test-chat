@@ -31,11 +31,8 @@ const Actions = {
       return data;
     });
   },
-  fetchUserRegistration: (postData) => (dispatch) => {
-    return userApi.signUp(postData).then(({ data }) => {
-      console.log(data)
-      return data;
-    });
+  fetchUserRegistration: (postData) => () => {
+    return userApi.signUp(postData);
   },
 };
 

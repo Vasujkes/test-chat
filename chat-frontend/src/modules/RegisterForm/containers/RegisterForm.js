@@ -24,10 +24,11 @@ export default withFormik({
   handleSubmit: (values, { setSubmitting, props }) => {
     store
       .dispatch(userActions.fetchUserRegistration(values))
-      .then(({ status }) => {
-        if (status === "success") {
+      .then(({ data }) => {
+        console.log(data);
+        if (data.status === "success") {
           setTimeout(() => {
-            props.history.push("/");
+            props.history.push("/signup/verify");
           }, 50);
         }
         setSubmitting(false);

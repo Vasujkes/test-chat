@@ -1,11 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { isToday } from 'date-fns'
+import { isToday } from "date-fns";
 import format from "date-fns/format";
 
 const Time = ({ date }) => {
-
   return isToday(new Date(date)) ? (
     <span className="date-format">{format(new Date(date), "HH:mm")}</span>
   ) : (
