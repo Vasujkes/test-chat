@@ -13,8 +13,9 @@ export default (app: express.Express, io: socket.Server) => {
   const MessageController = new MessageCtrl(io);
 
   app.use(bodyParser.json());
-  app.use(updateLastSeen);
   app.use(checkAuth);
+  app.use(updateLastSeen);
+
 
   app.get("/user/me", UserController.getMe);
   app.get("/user/verify", loginValidation, UserController.verify);

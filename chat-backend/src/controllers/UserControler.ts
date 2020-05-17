@@ -34,7 +34,7 @@ class UserController {
 
   getMe = (req: express.Request, res: express.Response) => {
     const id: string = req.user?._id;
-    UserModel.findById(id, (err, user) => {
+    UserModel.findById(id, (err, user: any) => {
       if (err || !user) {
         return res.status(404).json({
           message: "User not found",
@@ -54,12 +54,24 @@ class UserController {
     UserModel.findOne({ confirmed_hash: hash }, (err, user) => {
       if (err || !user) {
         return res.status(404).json({
+          status: "error",
           message: "Hash not found",
         });
       }
-      res.json({
-        status: "success",
-        message: "Акаунт успешно подтвержден!",
+
+      user.confirmed = true;
+      user.save((err) => {
+        if (err) {
+          return res.status(404).json({
+            status: "error",
+            message: err,
+          });
+        }
+
+        res.json({
+          status: "success",
+          message: "Акаунт успешно подтвержден!",
+        });
       });
     });
   };
@@ -78,6 +90,7 @@ class UserController {
     UserModel.findOne({ email: postData.email }, (err, user: IUser) => {
       if (err || !user) {
         return res.status(404).json({
+          status: "error",
           message: "User not found",
         });
       }
@@ -112,8 +125,11 @@ class UserController {
 
     user
       .save()
-      .then((obj: IUser) => {
-        res.json(obj);
+      .then((data: IUser) => {
+        res.json({
+          status: "success",
+          data,
+        });
       })
       .catch((reason) => {
         res.status(500).json({

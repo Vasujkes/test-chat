@@ -1,5 +1,5 @@
 import express from "express";
-import { MessageModel } from "../models";
+import { MessageModel, DialogModel } from "../models";
 import { IDialog } from "../models/Dialog";
 import socket from "socket.io";
 
@@ -37,11 +37,28 @@ class MessageController {
       .then((obj) => {
         obj.populate("dialog", (err, message) => {
           const dialogId: any = message.dialog;
+
           if (err) {
-            return res.status(404).json({
-              message: "Messages not found",
+            return res.status(500).json({
+              status: "error",
+              message: err,
             });
           }
+
+          DialogModel.findByIdAndUpdate(
+            { _id: postData.dialog },
+            { lastMessage: message._id },
+            { upsert: true },
+            (err) => {
+              if (err) {
+                return res.status(500).json({
+                  status: "error",
+                  message: err,
+                });
+              }
+            }
+          );
+
           res.json(message);
 
           this.io.on("connection", function (socket) {
