@@ -10,7 +10,10 @@ const App = (props) => {
     <div className="wrapper">
       <Switch>
         <Route exact path={["/signin", "/signup", "/signup/verify"]} component={Auth} />
-        <Route path="/" render={() => (isAuth ? <Home /> : <Redirect to="/signin" />)} />
+        <Route
+          path={["/", "/dialog/:id"]}
+          render={() => (isAuth ? <Home /> : <Redirect to="/signin" />)}
+        />
       </Switch>
     </div>
   );

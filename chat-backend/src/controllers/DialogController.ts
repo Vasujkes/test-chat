@@ -34,7 +34,7 @@ class DialogController {
 
   create = (req: express.Request, res: express.Response) => {
     const postData = {
-      author: req.body.author,
+      author: req.user?._id,
       partner: req.body.partner,
     };
     const dialog = new DialogModel(postData);
@@ -51,7 +51,14 @@ class DialogController {
         message
           .save()
           .then(() => {
-            res.json(dialogObj);
+            dialogObj.lastMessage = message._id;
+            dialogObj.save().then(() => {
+              res.json(dialogObj);
+              this.io.emit("SERVER:DIALOG_CRATED", {
+                ...postData,
+                dialog: dialogObj,
+              });
+            });
           })
           .catch((reason) => {
             res.json(reason);

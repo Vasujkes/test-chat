@@ -1,8 +1,7 @@
 import React from "react";
 import { Icon, Button } from "antd";
 
-import { Status, ChatInput } from "components";
-import { Dialogs, Messages } from "containers";
+import { Dialogs, Messages, ChatInput, Status } from "containers";
 
 import "./Home.scss";
 
@@ -24,12 +23,7 @@ const Home = () => (
       <div className="chat__dialog">
         <div className="chat__dialog-header">
           <div className="chat__dialog-header-block">
-            <div className="chat__dialog-header-wrapper">
-              <b className="chat__dialog-header-username">qwe </b>
-              <div className="chat__dialog-header-status">
-                <Status online />
-              </div>
-            </div>
+            <Status online />
           </div>
           <div className="chat__dialog-header-icon">
             <Button shape="circle" icon="ellipsis" />

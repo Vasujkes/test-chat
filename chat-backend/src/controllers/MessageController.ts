@@ -11,7 +11,7 @@ class MessageController {
   index = (req: express.Request, res: express.Response) => {
     const dialogId: any = req.query.dialog;
     MessageModel.find({ dialog: dialogId })
-      .populate(["dialog"])
+      .populate(["dialog", "user"])
       .exec(function (err, messages) {
         if (err) {
           return res.status(404).json({
@@ -34,10 +34,9 @@ class MessageController {
 
     message
       .save()
-      .then((obj) => {
-        obj.populate("dialog", (err, message) => {
-          const dialogId: any = message.dialog;
-
+      .then((obj: any) => {
+        obj.populate(["dialog", "user"], (err: any, message: any) => {
+          const dialogId: any = postData.dialog;
           if (err) {
             return res.status(500).json({
               status: "error",
@@ -62,11 +61,9 @@ class MessageController {
           res.json(message);
 
           this.io.on("connection", function (socket) {
-            socket.on("room", function (room) {
-              socket.join(room);
-            });
+            socket.join(dialogId);
           });
-          this.io.in(dialogId._id).emit("SERVER:NEW_MESSAGE", message);
+          this.io.in(dialogId).emit("SERVER:NEW_MESSAGE", message);
         });
       })
       .catch((reason) => {

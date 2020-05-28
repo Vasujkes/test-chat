@@ -8,10 +8,10 @@
   <body>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
     <script>
-      var socket = io("http://localhost:3000");
+      var socket = io("http://localhost:3003");
       window.socket = socket;
 
-      let room = "5eb6db3a95dee1020cc6933d";
+      let room = "5ecfb219580ece2c8426e274";
       console.log("dialog: ", room);
       socket.on("connect", function () {
         // Connected, let's sign-up for to receive messages for this room

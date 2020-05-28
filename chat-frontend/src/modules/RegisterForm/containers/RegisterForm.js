@@ -25,7 +25,6 @@ export default withFormik({
     store
       .dispatch(userActions.fetchUserRegistration(values))
       .then(({ data }) => {
-        console.log(data);
         if (data.status === "success") {
           setTimeout(() => {
             props.history.push("/signup/verify");

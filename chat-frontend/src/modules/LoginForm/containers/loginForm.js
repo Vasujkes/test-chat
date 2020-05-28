@@ -29,6 +29,7 @@ const LoginFormContainer = withFormik({
           }, 500);
         }
         if (status === "error") {
+      
           setSubmitting(false);
         }
       })

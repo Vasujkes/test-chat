@@ -7,11 +7,19 @@ import { Picker } from "emoji-mart";
 import "./ChatInput.scss";
 
 const ChatInput = (props) => {
+  const { onSendMessage, currentDialogId } = props;
   const [value, setValue] = useState("");
   const [emojiPickerVisible, setShowEmojiPicker] = useState(false);
 
   const toggleEmojiPicker = () => {
     setShowEmojiPicker(!emojiPickerVisible);
+  };
+
+  const handleSendMessage = (e) => {
+    if (e.keyCode === 13 && value != "") {
+      onSendMessage(value, currentDialogId);
+      setValue("");
+    }
   };
 
   return (
@@ -22,16 +30,14 @@ const ChatInput = (props) => {
             <Picker set="apple" size={14} />
           </div>
         )}
-        <Button
-          onClick={toggleEmojiPicker}
-          shape="circle"
-          icon="smile"
-        />
+        <Button onClick={toggleEmojiPicker} shape="circle" icon="smile" />
       </div>
       <Input
         placeholder="Введите сообщение"
         size="large"
+        onKeyUp={handleSendMessage}
         onChange={(e) => setValue(e.target.value)}
+        value={value}
       />
       <div className="chat-input__actions">
         <UploadField

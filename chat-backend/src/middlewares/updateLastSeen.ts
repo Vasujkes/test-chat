@@ -6,13 +6,15 @@ export default (
   __: express.Response,
   next: express.NextFunction
 ) => {
-  UserModel.updateOne(
-    { _id: req.user?._id },
-    {
-      $set: {
-        last_seen: new Date(),
-      },
-    }
-  ).exec();
+  if (req.user) {
+    UserModel.updateOne(
+      { _id: req.user?._id },
+      {
+        $set: {
+          last_seen: new Date(),
+        },
+      }
+    ).exec();
+  }
   next();
 };

@@ -14,7 +14,7 @@ const Actions = {
       const { status, token } = data;
       if (status === "error") {
         openNotification({
-          text: "Неверный логин или пароль",
+          text: "Неверная почта или пароль",
           type: "error",
           title: "Ошибка при авторизации",
         });
